@@ -3,7 +3,7 @@ package com.tomasmartinez.cursobackend.model;
 public class User {
     private static Long index = Long.valueOf(0);
     private Long id;
-    private String nombre;
+    private String name;
 
     public User() {
         this.id = index++;
@@ -11,7 +11,7 @@ public class User {
 
     public User(String nombre) {
         this.id = index++;
-        this.nombre = nombre;
+        this.name = nombre;
     }
 
     public Long getId() {
@@ -19,10 +19,10 @@ public class User {
     }
 
     public String getNombre() {
-        return nombre;
+        return name;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.name = nombre;
     }
 }
