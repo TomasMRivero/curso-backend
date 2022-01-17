@@ -16,7 +16,7 @@ public class ErrorMsgHandle {
     @ExceptionHandler(FirstApplicationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMsg errorMsgHandle(FirstApplicationException ex){
-        logger.error(ex);
+        logger.error(ex.getMessage());
         return new ErrorMsg(ex.getMessage());
     }
 }
