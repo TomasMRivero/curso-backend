@@ -20,7 +20,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    Product getProductById(@PathVariable Long id){
+    Product getProductById(@PathVariable Long id) throws Exception {
         return productService.getProductById(id);
     }
 
