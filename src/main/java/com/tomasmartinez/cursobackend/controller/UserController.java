@@ -2,7 +2,7 @@ package com.tomasmartinez.cursobackend.controller;
 
 import com.tomasmartinez.cursobackend.handle.FirstApplicationException;
 import com.tomasmartinez.cursobackend.model.User;
-import com.tomasmartinez.cursobackend.service.UserServiceImpl;
+import com.tomasmartinez.cursobackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class UserController {
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping("/user")
     public ArrayList<User> getUserList(){

@@ -1,7 +1,7 @@
 package com.tomasmartinez.cursobackend.model;
 
 public class User {
-    private static Long index = Long.valueOf(0);
+    private static Long index = 0L;
     private Long id;
     private String name;
 
