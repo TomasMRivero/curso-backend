@@ -14,8 +14,16 @@ public class ConfigService {
     @Value(value = "${user.test.role}")
     private String userRole;
 
-    public void updateUserConfig(String userRoleParam){
+    @Value(value = "${user.test.email}")
+    private String userMail;
+
+    @Value(value = "${user.test.phone}")
+    private String userPhone;
+
+    public void updateUserConfig(String userRoleParam, String userMailParam, String userPhoneParam){
         userRole = userRoleParam;
+        userMail = userMailParam;
+        userPhone = userPhoneParam;
         configSubject.notifyObserver(ConfigType.USER);
     }
 
@@ -23,7 +31,11 @@ public class ConfigService {
         return userRole;
     }
 
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
+    public String getUserMail() {
+        return userMail;
+    }
+
+    public Long getUserPhone() {
+        return userPhone;
     }
 }
