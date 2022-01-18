@@ -1,6 +1,7 @@
 package com.tomasmartinez.cursobackend.controller;
 
 import com.tomasmartinez.cursobackend.model.Product;
+import com.tomasmartinez.cursobackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     Product getProductById(@PathVariable Long id){
-        return productService.getProductByid(id);
+        return productService.getProductById(id);
     }
 
     @PostMapping("/")
