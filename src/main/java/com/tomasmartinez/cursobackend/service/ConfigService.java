@@ -35,7 +35,7 @@ public class ConfigService {
         return userMail;
     }
 
-    public Long getUserPhone() {
+    public String getUserPhone() {
         return userPhone;
     }
 }
