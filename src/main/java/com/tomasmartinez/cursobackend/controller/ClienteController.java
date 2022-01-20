@@ -1,6 +1,5 @@
 package com.tomasmartinez.cursobackend.controller;
 
-import com.tomasmartinez.cursobackend.handle.FirstApplicationException;
 import com.tomasmartinez.cursobackend.model.Cliente;
 import com.tomasmartinez.cursobackend.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +15,29 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping("/cliente")
-    public ArrayList<Cliente> getUserList(){
-        return clienteService.getUserList();
+    public ArrayList<Cliente> getClientList(){
+        return clienteService.getClientList();
     }
 
-    @GetMapping("/user/{id}")
-    public Cliente getUserById(@PathVariable Long id) throws Exception {
-        return clienteService.getUserById(id);
+    @GetMapping("/cliente/{id}")
+    public Cliente getClientById(@PathVariable Long id) throws Exception {
+        return clienteService.getClientById(id);
     }
 
-    @PostMapping("/user")
-    public Cliente createUser(@RequestBody Cliente cliente){
-        return clienteService.createUser(cliente);
+    @PostMapping("/cliente")
+    public Cliente createClient(@RequestBody Cliente cliente){
+        return clienteService.createClient(cliente);
     }
 
-    @GetMapping("/user/cust-ex")
-    public void throwException() throws FirstApplicationException {
-        throw new FirstApplicationException("Error: todo malio sal");
+    @PutMapping("/cliente/{id}")
+    public Cliente updateClient(@PathVariable Long id, @RequestBody Cliente cliente) throws Exception {
+        return clienteService.updateClient(id, cliente);
     }
+
+    @DeleteMapping("/cliente/{id}")
+    public void deleteClient(@PathVariable Long id) throws Exception {
+        clienteService.deleteClient(id);
+    }
+
+
 }

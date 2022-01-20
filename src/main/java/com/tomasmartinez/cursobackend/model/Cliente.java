@@ -10,6 +10,14 @@ public class Cliente {
         this.id = index++;
     }
 
+    public Cliente(String nombre, String apellido) {
+        this.id = index++;
+        this.nombre = nombre;
+        this.apellido = apellido;
+
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -28,13 +36,5 @@ public class Cliente {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    public Cliente(String nombre, String apellido) {
-        this.id = index++;
-        this.nombre = nombre;
-        this.apellido = apellido;
-
-
     }
 }

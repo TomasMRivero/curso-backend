@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Service
 public interface ClienteService {
-    ArrayList<Cliente> getUserList();
-    Cliente getUserById(Long id) throws Exception;
-    Cliente createUser(Cliente user);
+    ArrayList<Cliente> getClientList();
+    Cliente getClientById(Long id) throws Exception;
+    Cliente createClient(Cliente cliente);
+    public Cliente updateClient(Long id, Cliente cliente) throws Exception;
+    public void deleteClient(Long id) throws Exception;
 
 }

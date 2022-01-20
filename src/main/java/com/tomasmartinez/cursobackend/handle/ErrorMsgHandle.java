@@ -13,9 +13,9 @@ public class ErrorMsgHandle {
     private static final Logger logger = LogManager.getLogger(ErrorMsgHandle.class);
 
     @ResponseBody
-    @ExceptionHandler(FirstApplicationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMsg errorMsgHandle(FirstApplicationException ex){
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMsg errorMsgHandle(NotFoundException ex){
         logger.error(ex.getMessage());
         return new ErrorMsg(ex.getMessage());
     }
