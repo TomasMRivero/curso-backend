@@ -16,7 +16,6 @@ public class ErrorMsgHandle {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMsg errorMsgHandle(NotFoundException ex){
-        logger.error(ex.getMessage());
         return new ErrorMsg(ex.getMessage());
     }
 
@@ -24,7 +23,6 @@ public class ErrorMsgHandle {
     @ExceptionHandler(NullUpdateContentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMsg errorMsgHandle(NullUpdateContentException ex){
-        logger.error(ex.getMessage());
         return new ErrorMsg(ex.getMessage());
     }
 }
