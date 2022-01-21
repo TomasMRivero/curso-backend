@@ -35,14 +35,14 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente updateClient(Long id, Cliente cliente) throws Exception {
-        if (cliente.getNombre()==null && cliente.getApellido()==null) throw new NullUpdateContentException();
         Cliente found = repository.stream()
                 .filter(c -> c.getId() == id)
                 .findAny()
                 .orElse(null);
-        if(found == null) throw new NotFoundException("No encontrado");
-        found.setNombre(cliente.getNombre() != null ?cliente.getNombre() : found.getNombre());
-        found.setApellido(cliente.getApellido() != null ?cliente.getApellido() : found.getApellido());
+        if (found == null) throw new NotFoundException("No encontrado");
+        if (cliente.getNombre()==null && cliente.getApellido()==null) throw new NullUpdateContentException();
+        if (cliente.getNombre() != null) found.setNombre(cliente.getNombre());
+        if (cliente.getApellido() != null) found.setApellido(cliente.getApellido());
         return found;
     }
 
