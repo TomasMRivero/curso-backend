@@ -1,6 +1,7 @@
 package com.tomasmartinez.cursobackend.service;
 
 
+import com.tomasmartinez.cursobackend.annotation.UpdateOrDelete;
 import com.tomasmartinez.cursobackend.handle.NotFoundException;
 import com.tomasmartinez.cursobackend.handle.NullUpdateContentException;
 import com.tomasmartinez.cursobackend.model.Cliente;
@@ -34,6 +35,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    @UpdateOrDelete
     public Cliente updateClient(Long id, Cliente cliente) throws Exception {
         Cliente found = repository.stream()
                 .filter(c -> c.getId() == id)
@@ -47,6 +49,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    @UpdateOrDelete
     public void deleteClient(Long id) throws Exception{
         if(!repository.removeIf(c-> id == c.getId())) throw new NotFoundException("No encontrado");
     }
