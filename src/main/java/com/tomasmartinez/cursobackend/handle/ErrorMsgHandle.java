@@ -19,4 +19,12 @@ public class ErrorMsgHandle {
         logger.error(ex.getMessage());
         return new ErrorMsg(ex.getMessage());
     }
+
+    @ResponseBody
+    @ExceptionHandler(NullUpdateContentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMsg errorMsgHandle(NullUpdateContentException ex){
+        logger.error(ex.getMessage());
+        return new ErrorMsg(ex.getMessage());
+    }
 }

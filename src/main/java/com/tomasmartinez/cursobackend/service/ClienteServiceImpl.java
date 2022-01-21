@@ -2,6 +2,7 @@ package com.tomasmartinez.cursobackend.service;
 
 
 import com.tomasmartinez.cursobackend.handle.NotFoundException;
+import com.tomasmartinez.cursobackend.handle.NullUpdateContentException;
 import com.tomasmartinez.cursobackend.model.Cliente;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente updateClient(Long id, Cliente cliente) throws Exception {
+        if (cliente.getNombre()==null && cliente.getApellido()==null) throw new NullUpdateContentException();
         Cliente found = repository.stream()
                 .filter(c -> c.getId() == id)
                 .findAny()
