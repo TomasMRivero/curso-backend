@@ -13,9 +13,9 @@ public class AspectAfterUpdateOrDelete {
     Logger logger = LogManager.getLogger(AspectAfterUpdateOrDelete.class);
 
     @Pointcut("@annotation(com.tomasmartinez.cursobackend.annotation.UpdateOrDelete)")
-    void AfterUpdateOrDelete(){};
+    void updateOrDeleteServiceMethods(){};
 
-    @After("AfterUpdateOrDelete()")
+    @After("updateOrDeleteServiceMethods()")
     void afterAdviceMethod(){
         logger.info("Se ejecuto el after advice de un metodo Update o Delete del Service");
     }
