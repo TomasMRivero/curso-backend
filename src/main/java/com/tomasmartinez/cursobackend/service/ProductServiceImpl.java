@@ -31,6 +31,16 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public void updateStock(Long id, Integer stock) {
+        repository.updateStock(stock, id);
+    }
+
+    @Override
+    public void updateStockByName(String nombre, Integer stock) {
+        repository.updateStockByName(stock, nombre);
+    }
+
+    @Override
     public void delete(Product product, Long id) {
         product.setId(id);
         repository.delete(product);
