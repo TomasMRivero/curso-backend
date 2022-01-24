@@ -1,13 +1,13 @@
 package com.tomasmartinez.cursobackend.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import javax.persistence.*;
 
-@Entity
-@Table(name = "items")
+@Document("items")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
     private String nombre;
     private String categoria;
     private Integer stock;
@@ -20,11 +20,11 @@ public class Product {
         this.stock = stock;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

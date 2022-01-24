@@ -31,8 +31,4 @@ public class MongoProductTemplateRepositoryImpl implements MongoProductTemplateR
         return template.find(query, Product.class);
     }
 
-    @Override
-    public void updateMulti(Query query, Update update, Class<Product> productClass) {
-        template.updateMulti(query, update, productClass);
-    }
 }

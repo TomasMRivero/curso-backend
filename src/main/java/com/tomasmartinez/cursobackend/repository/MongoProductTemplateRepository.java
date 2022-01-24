@@ -9,5 +9,4 @@ import java.util.List;
 public interface MongoProductTemplateRepository {
     List<Product> findAllAllByStockSortedLimit(String categoria, String orderBy, int limit);
 
-    void updateMulti(Query query, Update update, Class<Product> productClass);
 }

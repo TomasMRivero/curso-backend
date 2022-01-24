@@ -24,29 +24,26 @@ public class ProductController {
         return service.findAll();
     }
 
+    @GetMapping("/producto/{categoria}")
+    public List<Product> findAllAllByStockSortedLimit(@PathVariable String categoria,
+                                                      @RequestParam String orderBy,
+                                                      @RequestParam int limit){
+        return service.findAllAllByStockSortedLimit(categoria, orderBy, limit);
+    }
+
     @GetMapping("/producto")
     public Product findByName(@RequestParam String nombre){
         return service.findByNombre(nombre);
     }
 
     @PutMapping("/producto")
+    public void updateProductByName(@RequestParam String nombre, @RequestBody Product product){
+        service.updateProductByName(product, nombre);
+    }
+
+    @PutMapping("/producto/stock")
     public void updateStockByName(@RequestParam String nombre, @RequestParam Integer stock){
         service.updateStockByName(nombre, stock);
-    }
-
-    @GetMapping("/producto/{id}")
-    public Product getProductByid(@PathVariable Long id){
-        return service.getProductById(id);
-    }
-
-    @PutMapping("/producto/{id}")
-    public Product updateProductById(@PathVariable Long id, @RequestBody Product product){
-        return service.updateProductById(product, id);
-    }
-
-    @PutMapping("/producto/{id}/updateStock")
-    public void updateStockById(@PathVariable Long id, @RequestParam Integer stock){
-        service.updateStock(id, stock);
     }
 
     @GetMapping("/producto/categorias")
@@ -54,9 +51,8 @@ public class ProductController {
         return service.findByCategoria(categoria);
     }
 
-    @DeleteMapping("/producto/{id}")
-    public void deleteProduct(@PathVariable Long id){
-        Product prod = service.getProductById(id);
-        service.delete(prod, id);
+    @DeleteMapping("/producto")
+    public void deleteProduct(@RequestParam String nombre){
+        service.delete(nombre);
     }
 }
