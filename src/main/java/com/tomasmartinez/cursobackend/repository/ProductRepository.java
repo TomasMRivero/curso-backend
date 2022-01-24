@@ -8,10 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ProductRepository extends CrudRepository {
-    Product findByName(String nombre);
+public interface ProductRepository extends CrudRepository<Product, Long> {
+    Product findByNombre(String nombre);
     List<Product> findByCategoria(String categoria);
-    List <Product> findByCategoriaOrderByStockDesc(String categoria);
 
     @Modifying
     @Query("update Product p set p.stock = :stock where p.id = :id")
