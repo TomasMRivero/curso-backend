@@ -6,9 +6,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class MongoProductTemplateRepositoryImpl implements MongoProductTemplateRepository{
 
     @Autowired
@@ -26,5 +29,10 @@ public class MongoProductTemplateRepositoryImpl implements MongoProductTemplateR
         query.addCriteria(Criteria.where("categoria").is(categoria));
 
         return template.find(query, Product.class);
+    }
+
+    @Override
+    public void updateMulti(Query query, Update update, Class<Product> productClass) {
+        template.updateMulti(query, update, productClass);
     }
 }

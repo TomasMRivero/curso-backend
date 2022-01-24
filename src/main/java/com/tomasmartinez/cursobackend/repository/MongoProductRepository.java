@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface MongoProductRepository extends MongoRepository<Product, String> {
     Product findByNombre(String nombre);
+    List<Product> findByCategoria(String categoria);
     List<Product> findStockGreaterThan(int stock);
-    List<Product> findStockOrderByNameDesc(int stock);
+    List<Product> findStockOrderByNombreDesc(int stock);
+    List<Product> findStockOrderByNombreAsc(int stock);
 }

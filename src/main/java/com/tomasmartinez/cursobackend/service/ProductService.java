@@ -7,12 +7,15 @@ import java.util.List;
 public interface ProductService {
 
     Product createProduct(Product product);
-    Product getProductById(Long id);
-    Product updateProductById(Product product, Long id);
-    void updateStock(Long id, Integer stock);
-    void updateStockByName(String nombre, Integer stock);
-    void delete(Product product, Long id);
     Product findByNombre(String nombre);
-    List<Product> findByCategoria(String categoria);
     List<Product> findAll();
+    List<Product> findByStockGreaterThan(int stock);
+    List<Product> findByStockOrderByNombreDesc(int stock);
+    List<Product> findByStockOrderByNombreAsc(int stock);
+    List<Product> findAllAllByStockSortedLimit(String categoria, String orderBy, int limit);
+    List<Product> findByCategoria(String categoria);
+
+    void updateProductByName(Product product, String name);
+    void updateStockByName(String nombre, Integer stock);
+    void delete(String nombre);
 }

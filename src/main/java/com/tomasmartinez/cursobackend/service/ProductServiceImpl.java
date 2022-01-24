@@ -1,8 +1,13 @@
 package com.tomasmartinez.cursobackend.service;
 
 import com.tomasmartinez.cursobackend.model.Product;
+import com.tomasmartinez.cursobackend.repository.MongoProductRepository;
+import com.tomasmartinez.cursobackend.repository.MongoProductTemplateRepository;
 import com.tomasmartinez.cursobackend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,7 +17,9 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService{
 
     @Autowired
-    private ProductRepository repository;
+    private MongoProductRepository repository;
+    @Autowired
+    private MongoProductTemplateRepository template;
 
     @Override
     public Product createProduct(Product product) {
@@ -20,35 +27,13 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getProductById(Long id) {
-        return repository.findById(id).get();
-    }
-
-    @Override
-    public Product updateProductById(Product product, Long id) {
-        product.setId(id);
-        return repository.save(product);
-    }
-
-    @Override
-    public void updateStock(Long id, Integer stock) {
-        repository.updateStock(stock, id);
-    }
-
-    @Override
-    public void updateStockByName(String nombre, Integer stock) {
-        repository.updateStockByName(stock, nombre);
-    }
-
-    @Override
-    public void delete(Product product, Long id) {
-        product.setId(id);
-        repository.delete(product);
-    }
-
-    @Override
     public Product findByNombre(String nombre) {
-        return repository.findByNombre(nombre);
+        repository.findByNombre(nombre);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return repository.findAll();
     }
 
     @Override
@@ -57,9 +42,44 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> findAll() {
-        List<Product> productList = new ArrayList<>();
-        repository.findAll().forEach(productList::add);
-        return productList;
+    public List<Product> findByStockGreaterThan(int stock) {
+        return repository.findStockGreaterThan(stock);
+    }
+
+    @Override
+    public List<Product> findByStockOrderByNombreDesc(int stock) {
+        return repository.findStockOrderByNombreDesc(stock);
+    }
+
+    @Override
+    public List<Product> findByStockOrderByNombreAsc(int stock) {
+        return repository.findStockOrderByNombreAsc(stock);
+    }
+
+    @Override
+    public List<Product> findAllAllByStockSortedLimit(String categoria, String orderBy, int limit) {
+        return template.findAllAllByStockSortedLimit(categoria, orderBy, limit);
+    }
+
+
+    @Override
+    public void updateProductByName(Product product, String name) {
+        var query = new Query();
+        query.addCriteria(Criteria.where("nombre").is(name));
+        var update = new Update();
+        update.set("nombre", product.getNombre());
+        template.updateMulti(query, update, Product.class);
+
+    }
+
+    @Override
+    public void updateStockByName(String nombre, Integer stock) {
+        var update = repository.findByNombre(nombre);
+        update.setStock(stock);
+    }
+
+    @Override
+    public void delete(String nombre) {
+        repository.delete(repository.findByNombre(nombre));
     }
 }
