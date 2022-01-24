@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "items")
-public class Producto {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -12,9 +12,9 @@ public class Producto {
     private String categoria;
     private Integer stock;
 
-    public Producto() {}
+    public Product() {}
 
-    public Producto(String nombre, String categoria, Integer stock) {
+    public Product(String nombre, String categoria, Integer stock) {
         this.nombre = nombre;
         this.categoria = categoria;
         this.stock = stock;
