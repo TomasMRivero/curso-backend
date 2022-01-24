@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ErrorMsgHandle {
-    private static final Logger logger = LogManager.getLogger(ErrorMsgHandle.class);
 
     @ResponseBody
     @ExceptionHandler(NotFoundException.class)
