@@ -36,12 +36,11 @@ public class CursoBackendApplication {
 			productRepository.save(Product.builder().name("fideos").category(harinas).stock(15).createdDate(new Date()).build());
 			productRepository.save(Product.builder().name("leche").category(lacteos).stock(30).createdDate(new Date()).build());
 			productRepository.save(Product.builder().name("crema").category(lacteos).stock(45).createdDate(new Date()).build());
+
 			for (Product p : productRepository.findAll()){
 				logger.info(p.toString());
 			}
 			logger.info("");
-
-			logger.info(lacteos.getProducts());
 		});
 	}
 }

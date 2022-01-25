@@ -89,3 +89,7 @@ insert into product (created_date, name, stock, id) values (?, ?, ?, ?) [42102-2
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PRODUCT" no encontrada
 Table "PRODUCT" not found; SQL statement:
 select * from product [42102-200]
+2022-01-25 19:12:08 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TESTCODER" no encontrada
+Table "TESTCODER" not found; SQL statement:
+SELECT * FROM TESTCODER:PRODUCT [42102-200]
