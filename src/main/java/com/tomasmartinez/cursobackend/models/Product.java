@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @ToString
@@ -13,14 +13,17 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(nullable = false)
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Category category;
+    @Column(nullable = false)
     private int stock;
     @CreatedDate
-    private Instant createdDate;
+    private Date createdDate;
 }

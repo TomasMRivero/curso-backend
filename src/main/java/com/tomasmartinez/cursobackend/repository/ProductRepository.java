@@ -16,6 +16,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     @Modifying
     @Transactional
-    @Query("update Product p set u.stock = :stock where u.name = :name")
+    @Query("update Product p set p.stock = :stock where p.name = :name")
     void updateAgeByName(@Param(value = "stock") int stock, @Param(value="name") String name);
 }
