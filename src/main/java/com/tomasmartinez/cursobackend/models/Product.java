@@ -1,5 +1,6 @@
 package com.tomasmartinez.cursobackend.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -20,10 +21,11 @@ public class Product {
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private Category category;
     @Column(nullable = false)
     private int stock;
     @CreatedDate
+    @JsonProperty("created_date")
     private Date createdDate;
 }

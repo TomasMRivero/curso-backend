@@ -1,6 +1,7 @@
 package com.tomasmartinez.cursobackend.controllers;
 
 import com.tomasmartinez.cursobackend.models.Product;
+import com.tomasmartinez.cursobackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,12 @@ import java.util.List;
 @RequestMapping("api/product")
 public class ProductController {
 
+    @Autowired
+    ProductService productService;
+
     @PostMapping
     Product createProduct(@RequestBody Product product) throws Exception{
-        return null;
+        return productService.createProduct(product);
     }
 
     @GetMapping("/all")
