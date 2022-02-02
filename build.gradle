@@ -25,6 +25,9 @@ dependencies {
 
 	implementation'javax.xml.bind:jaxb-api:2.3.0'
 
+	implementation'org.springframework.boot:spring-boot-starter-data-redis:2.6.3'
+	implementation 'redis.clients:jedis:4.1.1'
+
 	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.6.2'
