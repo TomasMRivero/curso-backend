@@ -22,21 +22,22 @@ public class ProductController {
 
     @GetMapping("/all")
     List<Product> getProductList() throws Exception{
-        return new ArrayList<Product>();
+        return productService.getProductList();
     }
 
     @GetMapping("/{id}")
     Product getProductById(@PathVariable Long id) throws Exception{
-        return null;
+        return productService.getProductById(id);
     }
 
     @PutMapping("/{id}")
     Product updateProductById(@PathVariable Long id, @RequestBody Product product) throws Exception{
-        return null;
+        return productService.updateProductById(id, product);
     }
 
     @DeleteMapping("/{id}")
     void deleteProductById(@PathVariable Long id) throws Exception{
+        productService.deleteProductById(id);
     }
 
     @GetMapping("")

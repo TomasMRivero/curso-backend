@@ -8,7 +8,7 @@ public interface ProductService {
     Product createProduct(Product product) throws Exception;
     List<Product> getProductList() throws Exception;
     Product getProductById(Long id) throws Exception;
-    Product updateProductById(long id, Product product) throws Exception;
+    Product updateProductById(Long id, Product product) throws Exception;
     void deleteProductById(Long id) throws Exception;
     Product getProductByName(String name) throws Exception;
     Product updateProductByName(String name, Product product) throws Exception;

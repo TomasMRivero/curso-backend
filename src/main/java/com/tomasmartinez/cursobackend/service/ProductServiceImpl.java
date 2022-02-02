@@ -10,7 +10,6 @@ import com.tomasmartinez.cursobackend.repository.CategoryRepository;
 import com.tomasmartinez.cursobackend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,59 +23,64 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
 
+
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
-    private final ObjectMapper mapper;
     private final RedisProductRepository redisProductRepository;
-
-    @PostConstruct
-    private void PostConstruct() {
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-    }
 
     @Override
     public Product createProduct(Product product) throws JsonProcessingException {
-        try{
-            Category category = categoryRepository.findByName(product.getCategory().getName());
-            if(category == null){
-                category = Category.builder().name(product.getCategory().getName()).build();
-                categoryRepository.save(category);
-            }
-            product.setCategory(category);
-            product.setCreatedDate(new Date());
-
-            productRepository.save(product);
-            mapperToString(product);
-            redisProductRepository.save(product);
-
-            return product;
-        } catch (JsonProcessingException e) {
-            log.error("Error al convertir a string", e);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e.getCause());
+        Category category = categoryRepository.findByName(product.getCategory().getName());
+        if(category == null){
+            category = Category.builder().name(product.getCategory().getName()).build();
+            categoryRepository.save(category);
         }
+        product.setCategory(category);
+        product.setCreatedDate(new Date());
+
+        productRepository.save(product);
+        redisProductRepository.save(product);
+
         return product;
     }
 
     @Override
     public List<Product> getProductList() throws Exception {
-        return null;
+        return (List<Product>) productRepository.findAll();
     }
 
     @Override
     public Product getProductById(Long id) throws Exception {
-        return null;
+        Product res;
+        if(redisProductRepository.findById(id) != null) res = redisProductRepository.findById(id);
+        else if(productRepository.findById(id).isPresent()){
+            res = productRepository.findById(id).get();
+            redisProductRepository.save(res);
+        }
+        else throw new Exception("No encontrado");
+        return res;
     }
 
     @Override
-    public Product updateProductById(long id, Product product) throws Exception {
-        return null;
+    public Product updateProductById(Long id, Product product) throws Exception {
+        if(!productRepository.findById(id).isPresent()) throw new Exception("No encontrado");
+        Category category = categoryRepository.findByName(product.getCategory().getName());
+        if(category == null){
+            category = Category.builder().name(product.getCategory().getName()).build();
+            categoryRepository.save(category);
+        }
+        product.setCategory(category);
+        product.setId(id);
+        product.setCreatedDate(new Date());
+        productRepository.save(product);
+        redisProductRepository.update(product);
+        return product;
     }
 
     @Override
     public void deleteProductById(Long id) throws Exception {
-
+        productRepository.delete(productRepository.findById(id).orElseThrow(() -> new Exception("no encontrado")));
+        redisProductRepository.delete(id);
     }
 
     @Override
@@ -97,22 +101,5 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public void deleteProductByName(String name) throws Exception {
 
-    }
-
-    void mapperToString(Product product) throws JsonProcessingException {
-        String prodString = mapper.writeValueAsString(product);
-        log.info("Producto en formato String : {}", prodString);
-    }
-
-    void mapperToMap(Product product) throws JsonProcessingException {
-        String prodString = mapper.writeValueAsString(product);
-        var prodMap = mapper.readValue(prodString, Map.class);
-        log.info("Producto en formato map: {}", prodMap);
-    }
-
-    void mapperToClass(Product product) throws JsonProcessingException {
-        String prodString = mapper.writeValueAsString(product);
-        Product prodClass = mapper.readValue(prodString, Product.class);
-        log.info("Producto en formato clase: {}", prodClass);
     }
 }
