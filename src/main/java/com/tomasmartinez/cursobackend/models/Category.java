@@ -24,9 +24,6 @@ public class Category implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String code;
-
     @JsonIgnore
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "category", fetch = FetchType.EAGER)
     private List<Product> products;
