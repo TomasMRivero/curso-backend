@@ -2,6 +2,7 @@ package com.tomasmartinez.cursobackend.cache;
 
 
 import com.tomasmartinez.cursobackend.models.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,7 @@ public class RedisProductRepository {
         return hashOperations.values(PRODUCT_KEY);
     }
 
-    public Product findById(Long id) {
+    public Product findById(String id) {
         return (Product) hashOperations.get(PRODUCT_KEY, id);
     }
 

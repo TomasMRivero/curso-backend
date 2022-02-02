@@ -7,7 +7,7 @@
     </Appenders>
     <Loggers>
         <Logger name="com.tomasmartinez.cursobackend" level="DEBUG"/>
-        <Root level="INFO">
+        <Root level="WARN">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>

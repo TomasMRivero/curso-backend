@@ -25,8 +25,8 @@ dependencies {
 
 	implementation'javax.xml.bind:jaxb-api:2.3.0'
 
-	implementation'org.springframework.boot:spring-boot-starter-data-redis:2.6.3'
-	implementation 'redis.clients:jedis:4.1.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'redis.clients:jedis'
 
 	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
@@ -36,10 +36,14 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.22'
 }
 
-configurations {
-	all {
-		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	}
+//configurations {
+//	exclusions {
+//		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//		exclude group: 'io.lettuce', module: 'lettuce-core'
+//	}
+//}
+configurations.all{
+	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 }
 
 test {
