@@ -1,8 +1,4 @@
 package com.tomasmartinez.cursobackend.service;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tomasmartinez.cursobackend.cache.RedisProductRepository;
 import com.tomasmartinez.cursobackend.models.Category;
 import com.tomasmartinez.cursobackend.models.Product;
@@ -12,24 +8,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
 
-
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final RedisProductRepository redisProductRepository;
 
     @Override
-    public Product createProduct(Product product) throws JsonProcessingException {
+    public Product createProduct(Product product) {
         Category category = categoryRepository.findByName(product.getCategory().getName());
         if(category == null){
             category = Category.builder().name(product.getCategory().getName()).build();
@@ -45,7 +37,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getProductList() throws Exception {
+    public List<Product> getProductList() {
         return (List<Product>) productRepository.findAll();
     }
 
