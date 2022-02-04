@@ -1,93 +1,170 @@
 package com.tomasmartinez.cursobackend;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tomasmartinez.cursobackend.models.Category;
 import com.tomasmartinez.cursobackend.models.Product;
-import com.tomasmartinez.cursobackend.repository.CategoryRepository;
-import com.tomasmartinez.cursobackend.repository.ProductRepository;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.util.Assert;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProductControllerMockMvcTest {
-    ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired
-    private MockMvc mockMvc;
+    private String url;
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    @BeforeAll
-    static void setup(){
-        System.out.println("inicializando testeos en Product Controller");
-	}
+    @LocalServerPort
+    private int port;
+    private static Long itemId;
 
     @BeforeEach
-    public void init() {
-        System.out.println("---Product Controller Request---");
-    }
-
-    @AfterAll
-    static void cleanup() {
-        System.out.println("finalizando testeos en Product Controller");
+    public void setUp(){
+        url = String.format("http://localhost:%d/api/", port);
     }
 
     @Test
-    public void getProductList() throws Exception {
-        MvcResult result = mockMvc.perform(get("http://localhost:8080/api/product/all"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        List<Product> productResult = mapper.readValue(content, List.class);
-        Assert.notNull(productResult, "Lista de Product no nula");
-        Assert.notEmpty(productResult, "Lista de Product no vacia");
-        Assert.isTrue(productResult.size() >= 3, "Size is ok >= 3");
+    public void createProduct() throws IOException{
+        String route = url + "product";
+
+        Category testCategory = Category.builder().name("testCategory").build();
+        Product testProduct = Product.builder().id(itemId).name("test").category(testCategory).stock(10).createdDate(new Date()).build();
+        StringEntity entity = new StringEntity(mapper.writeValueAsString(testProduct));
+
+        HttpPost req = new HttpPost(route);
+        req.setEntity(entity);
+        req.setHeader("Accept", "application/json");
+        req.setHeader("Content-type", "application/json");
+        HttpResponse res = HttpClientBuilder.create().build().execute(req);
+
+        String content = EntityUtils.toString(res.getEntity());
+        Product result = mapper.readValue(content, Product.class);
+
+        itemId = result.getId();
+
+        Assert.isTrue(
+                res.getStatusLine().getStatusCode() == 200,
+                "Status 200 OK");
+        Assert.notNull(result, "Producto no nulo");
+        Assert.isTrue(
+                result.getId().equals(itemId),
+                "Id OK: " + result.getId() + " == " + itemId );
+        Assert.isTrue(
+                result.getName().equals("test"),
+                "Name OK: " + result.getName() +" == 'test'" );
+        Assert.isTrue(
+                result.getCategory().getName().equals("testCategory"),
+                "Category OK: " + result.getCategory().getName() + " == 'testCategory'" );
+        Assert.isTrue(
+                result.getStock() == 10,
+                "Stock OK: " + result.getStock() + " == 10"
+        );
+
     }
 
     @Test
-    public void getProductById() throws Exception {
-        Long testId = 3L;
-        MvcResult result = mockMvc.perform(get("http://localhost:8080/api/product/{id}", testId))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        Product productResult = mapper.readValue(content, Product.class);
-        Assert.notNull(productResult, "Product no nulo");
-        Assert.isTrue(productResult.getId().equals(testId), "Product id ok");
-        Assert.isTrue(productResult.getName().equals("fideos"), "Product name ok");
+    public void getAllProducts() throws IOException{
+        String route = url + "product/all";
+
+        HttpUriRequest req = new HttpGet(route);
+        HttpResponse res = HttpClientBuilder.create().build().execute(req);
+
+        String content = EntityUtils.toString(res.getEntity());
+
+        List<Product> result = mapper.readValue(content, List.class);
+
+        Assert.isTrue(
+                res.getStatusLine().getStatusCode() == 200,
+                "Status 200 OK");
+        Assert.notNull(result, "Lista no nula");
+        Assert.notEmpty(result, "lista no vacia");
     }
 
     @Test
-    public void getProductByName() throws Exception{
-        String testName = "fideos";
-        MvcResult result = mockMvc.perform(get("http://localhost:8080/api/product")
-                .param("name", testName))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = result.getResponse().getContentAsString();
-        Product productResult = mapper.readValue(content, Product.class);
-        Assert.notNull(productResult, "Product no nulo");
-        Assert.isTrue(productResult.getName().equals(testName), "Product name ok");
+    public void getProductById() throws IOException{
+        String route = url + "product/" + itemId;
+
+        HttpUriRequest req = new HttpGet(route);
+        HttpResponse res = HttpClientBuilder.create().build().execute(req);
+
+        String content = EntityUtils.toString(res.getEntity());
+
+        Product result = mapper.readValue(content, Product.class);
+
+        Assert.isTrue(
+                res.getStatusLine().getStatusCode() >= 200,
+                "Status 200 OK");
+        Assert.notNull(result, "Producto no nulo");
+        Assert.isTrue(
+                result.getId() == itemId,
+                "Id OK: " + result.getId() + " == " + itemId );
+        Assert.isTrue(
+                result.getName().equals("test"),
+                "Name OK: " + result.getName() +" == 'test'" );
+        Assert.isTrue(
+                result.getCategory().getName().equals("testCategory"),
+                "Category OK: " + result.getCategory().getName() + " == 'testCategory'" );
+        Assert.isTrue(
+                result.getStock() == 10,
+                "Stock OK: " + result.getStock() + " == 10"
+        );
+    }
+
+    @Test
+    public void updateProductById() throws IOException{
+
+        String route = url + "product/" + itemId;
+
+        Category testCategory = Category.builder().name("testCategory").build();
+        Product testProduct = Product.builder().name("updateTest").category(testCategory).stock(10).createdDate(new Date()).build();
+        StringEntity entity = new StringEntity(mapper.writeValueAsString(testProduct));
+
+        HttpPut req = new HttpPut(route);
+        req.setEntity(entity);
+        req.setHeader("Accept", "application/json");
+        req.setHeader("Content-type", "application/json");
+        HttpResponse res = HttpClientBuilder.create().build().execute(req);
+
+        String content = EntityUtils.toString(res.getEntity());
+        Product result = mapper.readValue(content, Product.class);
+
+        Assert.notNull(result, "Producto no nulo");
+        Assert.isTrue(
+                result.getId().equals(itemId),
+                "Id OK: " + result.getId() + " == " + itemId );
+        Assert.isTrue(
+                result.getName().equals("updateTest"),
+                "Name OK: " + result.getName() +" == 'updateTest'" );
+        Assert.isTrue(
+                result.getCategory().getName().equals("testCategory"),
+                "Category OK: " + result.getCategory().getName() + " == 'testCategory'" );
+        Assert.isTrue(
+                result.getStock() == 10,
+                "Stock OK: " + result.getStock() + " == 10"
+        );
+    }
+
+    @Test
+    public void deleteProductById() throws IOException{
+
+        String route = url + "product/" + itemId;
+
+        HttpUriRequest req = new HttpDelete(route);
+        HttpResponse res = HttpClientBuilder.create().build().execute(req);
+
+        Assert.isTrue(
+                res.getStatusLine().getStatusCode() == 200,
+                "Status 200 OK");
     }
 }

@@ -1,11 +1,13 @@
 package com.tomasmartinez.cursobackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -16,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 @Table(name = "product")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
