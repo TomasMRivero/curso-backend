@@ -1,13 +1,12 @@
 package com.tomasmartinez.cursobackend.model.database;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 import com.tomasmartinez.cursobackend.model.database.concrete.ProductMongo;
 import com.tomasmartinez.cursobackend.model.database.concrete.ProductSQL;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Date;
 
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
@@ -19,11 +18,12 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 public abstract class Product {
     private String name;
     private int stock;
+    @JsonProperty("created_date")
+    private Date createdDate;
 }
