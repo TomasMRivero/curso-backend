@@ -15,8 +15,8 @@ public class ProductRequest {
     @NotBlank(message = "El campo type no puede ser vacío")
     @Pattern(regexp = "^(SQL|MONGO)$", message = "Solo acepta: SQL, MONGO")
     private String type;
-
     @NotBlank(message = "El campo name es obligatorio")
     private String name;
     private int stock;
+    private String serviceTime;
 }

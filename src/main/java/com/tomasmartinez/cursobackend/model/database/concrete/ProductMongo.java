@@ -12,7 +12,6 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonTypeName("product_mongo")
