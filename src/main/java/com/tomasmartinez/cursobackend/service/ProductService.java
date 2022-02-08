@@ -6,6 +6,6 @@ import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 import java.util.List;
 
 public interface ProductService {
-    ProductResponse create(ProductRequest product);
+    ProductResponse create(ProductRequest product) throws Exception;
     List<ProductResponse> searchAll();
 }

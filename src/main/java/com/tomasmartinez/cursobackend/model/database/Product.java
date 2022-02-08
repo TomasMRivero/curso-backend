@@ -6,6 +6,7 @@ import com.tomasmartinez.cursobackend.model.database.concrete.ProductSQL;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 

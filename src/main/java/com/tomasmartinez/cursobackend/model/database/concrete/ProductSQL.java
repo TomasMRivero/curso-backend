@@ -6,25 +6,25 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonTypeName("product_SQL")
+@JsonTypeName("product_sq")
 @SuperBuilder(toBuilder = true)
 @Entity
+@Table(name = "product")
 public class ProductSQL extends Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    String name;
+    Date createdDate;
 
     @Override
     public boolean equals(Object o) {

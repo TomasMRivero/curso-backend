@@ -17,7 +17,7 @@ public class ProductController {
     private final ProductService service;
 
     @PostMapping("")
-    public ProductResponse createProduct(@Validated @RequestBody ProductRequest product){
+    public ProductResponse createProduct(@Validated @RequestBody ProductRequest product) throws Exception {
         return service.create(product);
     }
 

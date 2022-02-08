@@ -39,7 +39,7 @@ public class ProductBuilder {
                 .build();
     }
 
-    public static List<ProductResponse> listEntityToResponse(List<Product> prods){
+    public static <T extends Product> List<ProductResponse> listEntityToResponse(List<T> prods){
         List<ProductResponse> resList = new ArrayList<>();
         prods.forEach(p -> resList.add(entityToResponse(p)));
         return resList;
