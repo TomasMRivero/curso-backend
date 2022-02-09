@@ -1,14 +1,14 @@
 package com.tomasmartinez.cursobackend.service;
 
-import com.tomasmartinez.cursobackend.model.document.Cliente;
+import com.tomasmartinez.cursobackend.model.document.User;
 
 import java.util.ArrayList;
 
 public interface ClienteService {
-    ArrayList<Cliente> getClientList();
-    Cliente getClientById(Long id) throws Exception;
-    Cliente createClient(Cliente cliente);
-    public Cliente updateClient(Long id, Cliente cliente) throws Exception;
+    ArrayList<User> getClientList();
+    User getClientById(Long id) throws Exception;
+    User createClient(User user);
+    public User updateClient(Long id, User user) throws Exception;
     public void deleteClient(Long id) throws Exception;
 
 }

@@ -1,6 +1,6 @@
 package com.tomasmartinez.cursobackend.controller;
 
-import com.tomasmartinez.cursobackend.model.document.Cliente;
+import com.tomasmartinez.cursobackend.model.document.User;
 import com.tomasmartinez.cursobackend.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,23 +15,23 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping("/cliente")
-    public ArrayList<Cliente> getClientList(){
+    public ArrayList<User> getClientList(){
         return clienteService.getClientList();
     }
 
     @GetMapping("/cliente/{id}")
-    public Cliente getClientById(@PathVariable Long id) throws Exception {
+    public User getClientById(@PathVariable Long id) throws Exception {
         return clienteService.getClientById(id);
     }
 
     @PostMapping("/cliente")
-    public Cliente createClient(@RequestBody Cliente cliente){
-        return clienteService.createClient(cliente);
+    public User createClient(@RequestBody User user){
+        return clienteService.createClient(user);
     }
 
     @PutMapping("/cliente/{id}")
-    public Cliente updateClient(@PathVariable Long id, @RequestBody Cliente cliente) throws Exception {
-        return clienteService.updateClient(id, cliente);
+    public User updateClient(@PathVariable Long id, @RequestBody User user) throws Exception {
+        return clienteService.updateClient(id, user);
     }
 
     @DeleteMapping("/cliente/{id}")

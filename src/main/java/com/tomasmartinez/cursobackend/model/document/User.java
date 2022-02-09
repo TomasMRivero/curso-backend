@@ -5,19 +5,19 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@ToString
 @AllArgsConstructor
-@Document("category")
-public class Category {
+@NoArgsConstructor
+@Document("user")
+public class User {
     @Id
     private String id;
     @Indexed(unique=true)
-    private String code;
-    private String description;
-    private LocalDateTime creationDate;
-    private LocalDateTime modificationDate;
+    private String userId;
+    @Indexed(unique=true)
+    private String email;
+    private String password;
 }
