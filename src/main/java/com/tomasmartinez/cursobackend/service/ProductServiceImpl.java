@@ -1,12 +1,9 @@
 package com.tomasmartinez.cursobackend.service;
 
-import com.tomasmartinez.cursobackend.model.Product;
+import com.tomasmartinez.cursobackend.model.document.Product;
 import com.tomasmartinez.cursobackend.repository.MongoProductRepository;
 import com.tomasmartinez.cursobackend.repository.MongoProductTemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

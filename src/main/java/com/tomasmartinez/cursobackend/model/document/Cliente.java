@@ -1,4 +1,4 @@
-package com.tomasmartinez.cursobackend.model;
+package com.tomasmartinez.cursobackend.model.document;
 
 public class Cliente {
     private static Long index = 0L;

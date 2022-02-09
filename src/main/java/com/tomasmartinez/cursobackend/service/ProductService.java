@@ -1,6 +1,6 @@
 package com.tomasmartinez.cursobackend.service;
 
-import com.tomasmartinez.cursobackend.model.Product;
+import com.tomasmartinez.cursobackend.model.document.Product;
 
 import java.util.List;
 

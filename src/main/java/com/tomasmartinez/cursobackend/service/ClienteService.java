@@ -1,8 +1,6 @@
 package com.tomasmartinez.cursobackend.service;
 
-import com.tomasmartinez.cursobackend.handle.FirstApplicationException;
-import com.tomasmartinez.cursobackend.model.Cliente;
-import org.springframework.stereotype.Service;
+import com.tomasmartinez.cursobackend.model.document.Cliente;
 
 import java.util.ArrayList;
 

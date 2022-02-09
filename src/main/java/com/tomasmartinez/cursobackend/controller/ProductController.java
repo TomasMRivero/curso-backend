@@ -1,6 +1,6 @@
 package com.tomasmartinez.cursobackend.controller;
 
-import com.tomasmartinez.cursobackend.model.Product;
+import com.tomasmartinez.cursobackend.model.document.Product;
 import com.tomasmartinez.cursobackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

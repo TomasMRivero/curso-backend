@@ -4,7 +4,7 @@ package com.tomasmartinez.cursobackend.service;
 import com.tomasmartinez.cursobackend.annotation.UpdateOrDelete;
 import com.tomasmartinez.cursobackend.handle.NotFoundException;
 import com.tomasmartinez.cursobackend.handle.NullUpdateContentException;
-import com.tomasmartinez.cursobackend.model.Cliente;
+import com.tomasmartinez.cursobackend.model.document.Cliente;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

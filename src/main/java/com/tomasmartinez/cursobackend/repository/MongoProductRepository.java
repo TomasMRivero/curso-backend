@@ -1,6 +1,6 @@
 package com.tomasmartinez.cursobackend.repository;
 
-import com.tomasmartinez.cursobackend.model.Product;
+import com.tomasmartinez.cursobackend.model.document.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
