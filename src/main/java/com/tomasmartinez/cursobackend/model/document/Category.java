@@ -18,6 +18,7 @@ public class Category {
     private String id;
     @Indexed(unique=true)
     private String code;
+    @Indexed(unique=true)
     private String description;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;

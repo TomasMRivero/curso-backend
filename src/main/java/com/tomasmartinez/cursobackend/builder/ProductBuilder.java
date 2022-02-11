@@ -5,6 +5,8 @@ import com.tomasmartinez.cursobackend.model.request.ProductRequest;
 import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductBuilder {
     public static Product requestToDocumentCreate(ProductRequest req){
@@ -49,5 +51,11 @@ public class ProductBuilder {
                 .creationDate(doc.getCreationDate())
                 .modificationDate(doc.getModificationDate())
                 .build();
+    }
+
+    public static <T extends Product> List<ProductResponse> listDocumentToResponse(List<T> documents){
+        List<ProductResponse> resList = new ArrayList<>();
+        documents.forEach(doc -> resList.add(documentToResponseSearch(doc)));
+        return resList;
     }
 }

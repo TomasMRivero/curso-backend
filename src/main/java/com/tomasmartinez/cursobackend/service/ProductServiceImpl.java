@@ -1,64 +1,90 @@
 package com.tomasmartinez.cursobackend.service;
 
+import com.tomasmartinez.cursobackend.builder.ProductBuilder;
+import com.tomasmartinez.cursobackend.model.document.Category;
 import com.tomasmartinez.cursobackend.model.document.Product;
+import com.tomasmartinez.cursobackend.model.request.ProductRequest;
+import com.tomasmartinez.cursobackend.model.response.ProductResponse;
+import com.tomasmartinez.cursobackend.repository.CategoryRepository;
 import com.tomasmartinez.cursobackend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductServiceImpl implements ProductService{
 
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository productRepository;
     @Autowired
-    private MongoProductTemplateRepository template;
+    private CategoryRepository categoryRepository;
+
 
     @Override
-    public Product createProduct(Product product) {
-        return repository.save(product);
+    public ProductResponse createProduct(ProductRequest req) throws Exception{
+        validateCreateRequest(req);
+        Product doc = productRepository.save(ProductBuilder.requestToDocumentCreate(req));
+        return ProductBuilder.documentToResponseCreate(doc);
     }
 
     @Override
-    public Product findByNombre(String nombre) {
-        return repository.findByNombre(nombre);
+    public ProductResponse findByCode(String code) {
+        return ProductBuilder.documentToResponseSearch(productRepository.findByCode(code));
     }
 
     @Override
-    public List<Product> findAll() {
-        return repository.findAll();
+    public List<ProductResponse> findByDescription(String description) {
+        return ProductBuilder.listDocumentToResponse(productRepository.findByDescription(description));
     }
 
     @Override
-    public List<Product> findByCategoria(String categoria) {
-        return repository.findByCategoria(categoria);
+    public List<ProductResponse> findAll() {
+        return ProductBuilder.listDocumentToResponse(productRepository.findAll());
     }
 
     @Override
-    public List<Product> findAllAllByStockSortedLimit(String categoria, String orderBy, int limit) {
-        return template.findAllAllByStockSortedLimit(categoria, orderBy, limit);
-    }
-
-
-    @Override
-    public void updateProductByName(Product product, String name) {
-        var update = repository.findByNombre(name);
-        update.setNombre(product.getNombre());
-        update.setCategoria(product.getCategoria());
-        update.setStock(product.getStock());
-        repository.save(update);
+    public List<ProductResponse> findByCategoryCode(String code) throws Exception {
+        Category category = validateCategory(code);
+        return ProductBuilder.listDocumentToResponse(productRepository.findByCategory(category));
     }
 
     @Override
-    public void updateStockByName(String nombre, Integer stock) {
-        var update = repository.findByNombre(nombre);
-        update.setStock(stock);
-        repository.save(update);
+    public ProductResponse updateProductByCode(ProductRequest req, String code) throws Exception {
+        validateUpdateRequest(req);
+        Product doc = ProductBuilder.requestToDocumentUpdate(req);
+        doc.setId(productRepository.findByCode(code).getId());
+        productRepository.save(doc);
+        return ProductBuilder.documentToResponseCreate(doc);
     }
 
     @Override
-    public void delete(String nombre) {
-        repository.delete(repository.findByNombre(nombre));
+    public void deleteByCode(String code) throws Exception {
+        productRepository.delete(validateProductByCode(code));
+    }
+
+    private void validateCreateRequest(ProductRequest request) throws Exception{
+        validateCategory(request.getCategory().getCode());
+        if(!Objects.isNull(productRepository.findByCode(request.getCode())))
+            throw new Exception("El producto ya existe");
+    }
+
+    private void validateUpdateRequest(ProductRequest request) throws Exception {
+        validateProductByCode(request.getCode());
+        validateCategory(request.getCategory().getCode());
+    }
+
+    private Product validateProductByCode(String code) throws Exception {
+        Product prod = productRepository.findByCode(code);
+        if(Objects.isNull(prod))
+            throw new Exception("El producto no existe");
+        return prod;
+    }
+
+    private Category validateCategory(String code) throws Exception{
+        Category cat = categoryRepository.findByCode(code);
+        if(Objects.isNull(cat)) throw new Exception("La categoria no existe");
+        return cat;
     }
 }
