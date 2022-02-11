@@ -1,8 +1,7 @@
 package com.tomasmartinez.cursobackend.service;
 
 import com.tomasmartinez.cursobackend.model.document.Product;
-import com.tomasmartinez.cursobackend.repository.MongoProductRepository;
-import com.tomasmartinez.cursobackend.repository.MongoProductTemplateRepository;
+import com.tomasmartinez.cursobackend.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService{
 
     @Autowired
-    private MongoProductRepository repository;
+    private ProductRepository repository;
     @Autowired
     private MongoProductTemplateRepository template;
 
