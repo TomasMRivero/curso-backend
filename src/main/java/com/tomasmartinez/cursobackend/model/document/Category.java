@@ -16,9 +16,7 @@ import java.time.LocalDateTime;
 public class Category {
     @Id
     private String id;
-    @Indexed(unique=true)
     private String code;
-    @Indexed(unique=true)
     private String description;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;

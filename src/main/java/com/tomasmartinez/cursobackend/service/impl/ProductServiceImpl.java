@@ -26,8 +26,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse createProduct(ProductRequest req) throws Exception{
-        validateCreateRequest(req);
-        Product doc = productRepository.save(ProductBuilder.requestToDocumentCreate(req));
+        Category categoryToSet = validateCreateRequest(req);
+        Product doc = ProductBuilder.requestToDocumentCreate(req);
+        doc.setCategory(categoryToSet);
+        productRepository.save(doc);
         return ProductBuilder.documentToResponseCreate(doc);
     }
 
@@ -54,10 +56,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse updateProductByCode(ProductRequest req, String code) throws Exception {
-        validateUpdateRequest(req);
+        Category categoryToSet = validateUpdateRequest(req);
         Product doc = ProductBuilder.requestToDocumentUpdate(req);
         doc.setId(productRepository.findByCode(code).getId());
         doc.setCreationDate((productRepository.findByCode(code).getCreationDate()));
+        doc.setCategory(categoryToSet);
         productRepository.save(doc);
         return ProductBuilder.documentToResponseCreate(doc);
     }
@@ -67,15 +70,15 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(validateProductByCode(code));
     }
 
-    private void validateCreateRequest(ProductRequest request) throws Exception{
-        validateCategory(request.getCategory().getCode());
+    private Category validateCreateRequest(ProductRequest request) throws Exception{
         if(!Objects.isNull(productRepository.findByCode(request.getCode())))
             throw new Exception("El producto ya existe");
+        return validateCategory(request.getCategoryCode());
     }
 
-    private void validateUpdateRequest(ProductRequest request) throws Exception {
+    private Category validateUpdateRequest(ProductRequest request) throws Exception {
         validateProductByCode(request.getCode());
-        validateCategory(request.getCategory().getCode());
+        return validateCategory(request.getCategoryCode());
     }
 
     private Product validateProductByCode(String code) throws Exception {
