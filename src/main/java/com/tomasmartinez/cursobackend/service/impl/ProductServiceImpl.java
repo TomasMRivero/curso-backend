@@ -57,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
         validateUpdateRequest(req);
         Product doc = ProductBuilder.requestToDocumentUpdate(req);
         doc.setId(productRepository.findByCode(code).getId());
+        doc.setCreationDate((productRepository.findByCode(code).getCreationDate()));
         productRepository.save(doc);
         return ProductBuilder.documentToResponseCreate(doc);
     }

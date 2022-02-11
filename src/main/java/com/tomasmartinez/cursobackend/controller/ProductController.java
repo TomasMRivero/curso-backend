@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
-    ProductService service;
+    private ProductService service;
 
     @PostMapping("/productos")
     public ProductResponse createProduct(@RequestBody @Validated ProductRequest request) throws Exception {
