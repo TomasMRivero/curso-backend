@@ -7,29 +7,29 @@ import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 import java.time.LocalDateTime;
 
 public class ProductBuilder {
-    public Product requestToDocumentCreate(ProductRequest req){
+    public static Product requestToDocumentCreate(ProductRequest req){
         return Product.builder()
                 .code(req.getCode())
                 .description(req.getDescription())
-                //.category(CategoryBuilder.requestToDocument(req.getCategory()) TODO: Crear CategoryBuilder
+                .category(CategoryBuilder.requestToDocument(req.getCategory()))
                 .price(req.getPrice())
                 .stock(req.getStock())
                 .creationDate(LocalDateTime.now())
                 .build();
     }
-    public Product requestToDocumentUpdate(ProductRequest req){
+    public static Product requestToDocumentUpdate(ProductRequest req){
         return Product.builder()
                 .code(req.getCode())
                 .description(req.getDescription())
                 .price(req.getPrice())
-                //.category(CategoryBuilder.requestToDocument(req.getCategory())
+                .category(CategoryBuilder.requestToDocument(req.getCategory()))
                 .price(req.getPrice())
                 .stock(req.getStock())
                 .modificationDate(LocalDateTime.now())
                 .build();
     }
 
-    public ProductResponse documentToResponseCreate(Product doc){
+    public static ProductResponse documentToResponseCreate(Product doc){
         return ProductResponse.builder()
                 .id(doc.getId())
                 .code(doc.getCode())
@@ -38,12 +38,12 @@ public class ProductBuilder {
                 .build();
     }
 
-    public ProductResponse documentToResponseSearch(Product doc){
+    public static ProductResponse documentToResponseSearch(Product doc){
         return ProductResponse.builder()
                 .id(doc.getId())
                 .code(doc.getCode())
                 .description(doc.getDescription())
-                //.category(CategoryBuilder.documentToResponse(doc.getCategory())
+                .category(CategoryBuilder.documentToResponse(doc.getCategory()))
                 .price(doc.getPrice())
                 .stock(doc.getStock())
                 .creationDate(doc.getCreationDate())
