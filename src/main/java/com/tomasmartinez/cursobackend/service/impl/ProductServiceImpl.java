@@ -20,8 +20,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
-    private CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
 
     @Override

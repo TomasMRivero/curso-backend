@@ -35,6 +35,10 @@ public class ProductBuilder {
         return ProductResponse.builder()
                 .id(doc.getId())
                 .code(doc.getCode())
+                .description(doc.getDescription())
+                .category(CategoryBuilder.documentToResponse(doc.getCategory()))
+                .price(doc.getPrice())
+                .stock(doc.getStock())
                 .creationDate(doc.getCreationDate())
                 .modificationDate(doc.getModificationDate())
                 .build();

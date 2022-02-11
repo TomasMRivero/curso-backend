@@ -10,44 +10,44 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/productos")
 @RequiredArgsConstructor
 public class ProductController {
 
-    private ProductService service;
+    private final ProductService service;
 
-    @PostMapping("/productos")
+    @PostMapping("")
     public ProductResponse createProduct(@RequestBody @Validated ProductRequest request) throws Exception {
         return service.createProduct(request);
     }
 
-    @GetMapping("/productos/all")
+    @GetMapping("/all")
     public List<ProductResponse> findAllProducts(){
         return service.findAll();
     }
 
-    @GetMapping("/productos/desc")
+    @GetMapping("/desc")
     public List<ProductResponse> findByDescription(@RequestParam String description){
         return service.findByDescription(description);
     }
 
-    @GetMapping("/productos")
+    @GetMapping("")
     public ProductResponse findByCode(@RequestParam String code){
         return service.findByCode(code);
     }
 
-    @PutMapping("/productos")
+    @PutMapping("")
     public ProductResponse updateProductByCode(@RequestBody @Validated ProductRequest request,
                                                @RequestParam String code) throws Exception {
         return service.updateProductByCode(request, code);
     }
 
-    @GetMapping("/productos/{categoryCode}")
+    @GetMapping("/{categoryCode}")
     public List<ProductResponse> findAllProductsByCategoryCode(@PathVariable String categoryCode) throws Exception {
         return service.findByCategoryCode(categoryCode);
     }
 
-    @DeleteMapping("/productos")
+    @DeleteMapping("")
     public void deleteProductByCode(@RequestParam String code) throws Exception {
         service.deleteByCode(code);
     }

@@ -9,13 +9,14 @@ import com.tomasmartinez.cursobackend.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository repository;
+    private final CategoryRepository repository;
 
     @Override
     public CategoryResponse createCategory(CategoryRequest request) throws Exception {
@@ -32,6 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse findCategoryById(String id) {
         return CategoryBuilder.documentToResponse(repository.findById(id).get());
+    }
+
+    @Override
+    public List<CategoryResponse> findAllCategories() {
+        return CategoryBuilder.listDocumentToResponse(repository.findAll());
     }
 
     private void validateCreateRequest(CategoryRequest req) throws Exception {
