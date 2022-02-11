@@ -9,8 +9,6 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
 @Repository

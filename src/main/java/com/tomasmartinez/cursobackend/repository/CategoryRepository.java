@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface CategoryRepository extends MongoRepository<Category, String> {
     Category findByCode(String code);
-    Category findByName(String name);
+    Category findByDescription(String description);
 }

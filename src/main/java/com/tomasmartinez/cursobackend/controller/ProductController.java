@@ -1,58 +1,54 @@
 package com.tomasmartinez.cursobackend.controller;
 
-import com.tomasmartinez.cursobackend.model.document.Product;
+import com.tomasmartinez.cursobackend.model.request.ProductRequest;
+import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 import com.tomasmartinez.cursobackend.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/coder")
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
     ProductService service;
 
-    @PostMapping("/producto")
-    public Product createProduct(@RequestBody Product product){
-        return service.createProduct(product);
+    @PostMapping("/productos")
+    public ProductResponse createProduct(@RequestBody @Validated ProductRequest request) throws Exception {
+        return service.createProduct(request);
     }
 
-    @GetMapping("/producto/all")
-    public List<Product> findProducts(){
+    @GetMapping("/productos/all")
+    public List<ProductResponse> findAllProducts(){
         return service.findAll();
     }
 
-    @GetMapping("/producto/{categoria}")
-    public List<Product> findAllAllByStockSortedLimit(@PathVariable String categoria,
-                                                      @RequestParam String orderBy,
-                                                      @RequestParam int limit){
-        return service.findAllAllByStockSortedLimit(categoria, orderBy, limit);
+    @GetMapping("/productos/desc")
+    public List<ProductResponse> findByDescription(@RequestParam String description){
+        return service.findByDescription(description);
     }
 
-    @GetMapping("/producto")
-    public Product findByName(@RequestParam String nombre){
-        return service.findByNombre(nombre);
+    @GetMapping("/productos")
+    public ProductResponse findByCode(@RequestParam String code){
+        return service.findByCode(code);
     }
 
-    @PutMapping("/producto")
-    public void updateProductByName(@RequestParam String nombre, @RequestBody Product product){
-        service.updateProductByName(product, nombre);
+    @PutMapping("/productos")
+    public ProductResponse updateProductByCode(@RequestBody @Validated ProductRequest request,
+                                               @RequestParam String code) throws Exception {
+        return service.updateProductByCode(request, code);
     }
 
-    @PutMapping("/producto/stock")
-    public void updateStockByName(@RequestParam String nombre, @RequestParam Integer stock){
-        service.updateStockByName(nombre, stock);
+    @GetMapping("/productos/{categoryCode}")
+    public List<ProductResponse> findAllProductsByCategoryCode(@PathVariable String categoryCode) throws Exception {
+        return service.findByCategoryCode(categoryCode);
     }
 
-    @GetMapping("/producto/categorias")
-    public List<Product> findByCategoria(@RequestParam String categoria){
-        return service.findByCategoria(categoria);
-    }
-
-    @DeleteMapping("/producto")
-    public void deleteProduct(@RequestParam String nombre){
-        service.delete(nombre);
+    @DeleteMapping("/productos")
+    public void deleteProductByCode(@RequestParam String code) throws Exception {
+        service.deleteByCode(code);
     }
 }

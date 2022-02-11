@@ -1,7 +1,5 @@
 package com.tomasmartinez.cursobackend.service;
 
-import com.tomasmartinez.cursobackend.model.document.Category;
-import com.tomasmartinez.cursobackend.model.document.Product;
 import com.tomasmartinez.cursobackend.model.request.ProductRequest;
 import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 

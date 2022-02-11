@@ -1,4 +1,4 @@
-package com.tomasmartinez.cursobackend.service;
+package com.tomasmartinez.cursobackend.service.impl;
 
 import com.tomasmartinez.cursobackend.builder.ProductBuilder;
 import com.tomasmartinez.cursobackend.model.document.Category;
@@ -7,6 +7,7 @@ import com.tomasmartinez.cursobackend.model.request.ProductRequest;
 import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 import com.tomasmartinez.cursobackend.repository.CategoryRepository;
 import com.tomasmartinez.cursobackend.repository.ProductRepository;
+import com.tomasmartinez.cursobackend.service.ProductService;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
