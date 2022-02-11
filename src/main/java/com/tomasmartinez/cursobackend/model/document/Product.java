@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
 @Getter
 @Setter
 @ToString
@@ -21,7 +22,7 @@ public class Product {
     private String description;
     private Category category;
     private double price;
+    private int stock;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
-    private int stock;
 }

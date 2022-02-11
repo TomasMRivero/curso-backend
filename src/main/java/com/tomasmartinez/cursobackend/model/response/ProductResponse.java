@@ -18,7 +18,7 @@ public class ProductResponse {
     private String description;
     private CategoryResponse category;
     private double price;
+    private int stock;
     private LocalDateTime creationDate;
     private LocalDateTime modificationDate;
-    private int stock;
 }
