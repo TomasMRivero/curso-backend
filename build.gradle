@@ -35,14 +35,22 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'redis.clients:jedis'
 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.session:spring-session-data-mongodb'
+	implementation 'com.google.guava:guava:28.1-jre'
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.2'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 }
 
-configurations {
-	all {
+configurations.all {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-	}
 }
 
 test {
