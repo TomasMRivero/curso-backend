@@ -9,21 +9,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Id;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Document("user")
 public class User implements UserDetails {
-    private final List<? extends GrantedAuthority> grantedAuthorities;
+    private final Set<? extends GrantedAuthority> grantedAuthorities;
     private final String password;
     private final String username;
     private final boolean isAccountNonExpired;
     private final boolean isAccountNonLocked;
     private final boolean isCredentialsNonExpired;
     private final boolean isEnabled;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
