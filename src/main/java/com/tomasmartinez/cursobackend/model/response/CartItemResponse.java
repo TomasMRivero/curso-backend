@@ -1,9 +1,8 @@
-package com.tomasmartinez.cursobackend.model.document;
+package com.tomasmartinez.cursobackend.model.response;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
-
 
 @Getter
 @Setter
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartItem {
+public class CartItemResponse {
     private String code;
     private int amount;
     private LocalDateTime createdDate;
