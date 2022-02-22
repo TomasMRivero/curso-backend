@@ -1,5 +1,6 @@
 package com.tomasmartinez.cursobackend.security;
 
+import com.tomasmartinez.cursobackend.config.ApplicationProperties;
 import com.tomasmartinez.cursobackend.model.document.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,6 +16,9 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class JwtProvider implements Serializable {
+
+    private final ApplicationProperties props;
+
     public String getJwtToken(User user){
         return Jwts.builder()
                 .setSubject(user.getUserId())
@@ -22,8 +26,8 @@ public class JwtProvider implements Serializable {
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 30000))
-                .signWith(SignatureAlgorithm.HS512, "secret".getBytes())
+                .setExpiration(new Date(System.currentTimeMillis() + props.expMillis()))
+                .signWith(SignatureAlgorithm.HS512, props.getSecret().getBytes())
                 .compact();
     }
 }
