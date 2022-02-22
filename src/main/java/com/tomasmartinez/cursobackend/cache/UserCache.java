@@ -36,4 +36,8 @@ public class UserCache {
     public void delete(User user){
         hashOperations.delete(user.getUserId(), user.getUserId());
     }
+
+    public String getToken(String uid){
+        return (String) hashOperations.get(uid, uid);
+    }
 }

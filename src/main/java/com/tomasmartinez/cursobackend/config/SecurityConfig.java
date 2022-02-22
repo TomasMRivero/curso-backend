@@ -1,6 +1,7 @@
 package com.tomasmartinez.cursobackend.config;
 
 import com.tomasmartinez.cursobackend.model.document.User;
+import com.tomasmartinez.cursobackend.security.JwtTokenFilter;
 import com.tomasmartinez.cursobackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.tomasmartinez.cursobackend.security.UserRole.*;
 
@@ -34,18 +36,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userService = userService;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/user", "/api/login").permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .httpBasic();
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//            .csrf().disable()
+//            .authorizeRequests()
+//            .antMatchers("/").permitAll()
+//            .antMatchers(HttpMethod.POST, "/api/user", "/api/login").permitAll()
+//            .anyRequest()
+//            .authenticated()
+//            .and()
+//            .httpBasic();
+//
+//    }
 
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable()
+                .addFilterAfter(new JwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/user/login", "/api/user").permitAll()
+                .anyRequest().authenticated();
     }
 
 //    @Override
@@ -66,16 +77,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new InMemoryUserDetailsManager(testUser, adminUser);
 //    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
-    }
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userService);
-        return provider;
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(daoAuthenticationProvider());
+//    }
+//
+//    @Bean
+//    public DaoAuthenticationProvider daoAuthenticationProvider(){
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setPasswordEncoder(passwordEncoder);
+//        provider.setUserDetailsService(userService);
+//        return provider;
+//    }
 }

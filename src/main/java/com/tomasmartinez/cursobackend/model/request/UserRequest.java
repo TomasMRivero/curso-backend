@@ -25,5 +25,6 @@ public class UserRequest {
     @NotNull(message = "Campo password requerido")
     @Size(min = 8, max = 32, message = "Debe tener entre 8 y 32 caracteres")
     private String password;
+    @Builder.Default
     private boolean isAdmin = false;
 }
