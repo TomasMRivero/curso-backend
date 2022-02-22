@@ -22,6 +22,7 @@ public class JwtProvider implements Serializable {
     public String getJwtToken(User user){
         return Jwts.builder()
                 .setSubject(user.getUserId())
+                .claim("email", user.getEmail())
                 .claim("authorities", user.getGrantedAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
