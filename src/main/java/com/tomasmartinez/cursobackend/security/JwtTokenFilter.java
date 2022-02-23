@@ -1,9 +1,12 @@
 package com.tomasmartinez.cursobackend.security;
 
+import com.tomasmartinez.cursobackend.config.ApplicationProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +28,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
+
+    private final ApplicationProperties properties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -54,7 +60,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private Claims validateToken(HttpServletRequest request){
         String jwtToken = request.getHeader("Authorization")
                 .replace("Bearer ", "");
-        return Jwts.parser().setSigningKey("secret".getBytes()).parseClaimsJws(jwtToken).getBody();
+        return Jwts.parser().setSigningKey(properties.getSecret().getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
     private void setUpSpringAuthentication(Claims claims) {

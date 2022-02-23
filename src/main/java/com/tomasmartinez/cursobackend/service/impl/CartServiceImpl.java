@@ -39,7 +39,14 @@ public class CartServiceImpl implements CartService {
         }catch (Exception e){
             cart = buildCart(token);
         }
-        cart.getItems().add(CartItemBuilder.requestToDocument(request));
+        try {
+            CartItem item = validateUpdateRequest(request.getAmount(), request.getCode(), cart);
+            item.setAmount(item.getAmount() + request.getAmount());
+            item.setModifiedDate(LocalDateTime.now());
+            //TODO: EXCEPCION PARA SIN STOCK Y VERIF
+        }catch(Exception e){
+            cart.getItems().add(CartItemBuilder.requestToDocument(request));
+        }
         cartRepository.save(cart);
         cart.setModifiedDate(LocalDateTime.now());
         return CartBuilder.documentToResponse(cart);
@@ -99,8 +106,9 @@ public class CartServiceImpl implements CartService {
     }
 
     private String decodeEmail(String token) throws Exception{
+        token = token.replace("Bearer ", "");
         return Jwts.parser()
-                .setSigningKey(properties.getSecret())
+                .setSigningKey(properties.getSecret().getBytes())
                 .parseClaimsJws(token)
                 .getBody()
                 .get("email", String.class);
