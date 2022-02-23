@@ -1,5 +1,6 @@
 package com.tomasmartinez.cursobackend.controller;
 
+import com.tomasmartinez.cursobackend.annotation.AdminMethod;
 import com.tomasmartinez.cursobackend.model.request.ProductRequest;
 import com.tomasmartinez.cursobackend.model.response.ProductResponse;
 import com.tomasmartinez.cursobackend.service.ProductService;
@@ -17,6 +18,7 @@ public class ProductController {
 
     private final ProductService service;
 
+    @AdminMethod
     @PostMapping("")
     @PreAuthorize("hasAuthority('product:write')")
     public ProductResponse createProduct(@RequestBody @Validated ProductRequest request) throws Exception {
@@ -41,6 +43,7 @@ public class ProductController {
         return service.findByCode(code);
     }
 
+    @AdminMethod
     @PutMapping("")
     @PreAuthorize("hasAuthority('product:write')")
     public ProductResponse updateProductByCode(@RequestBody @Validated ProductRequest request,
@@ -54,6 +57,7 @@ public class ProductController {
         return service.findByCategoryCode(categoryCode);
     }
 
+    @AdminMethod
     @DeleteMapping("")
     @PreAuthorize("hasAuthority('product:write')")
     public void deleteProductByCode(@RequestParam String code) throws Exception {

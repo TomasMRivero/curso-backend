@@ -1,5 +1,6 @@
 package com.tomasmartinez.cursobackend.controller;
 
+import com.tomasmartinez.cursobackend.annotation.AdminMethod;
 import com.tomasmartinez.cursobackend.model.response.OrderResponse;
 import com.tomasmartinez.cursobackend.service.OrderService;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class OrderController {
         return orderService.showOrders(orderService.decodeEmail(token));
     }
 
+    @AdminMethod
     @GetMapping("/{email}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<OrderResponse> showOrdersByEmail(@PathVariable String email){

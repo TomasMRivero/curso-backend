@@ -1,5 +1,6 @@
 package com.tomasmartinez.cursobackend.controller;
 
+import com.tomasmartinez.cursobackend.annotation.AdminMethod;
 import com.tomasmartinez.cursobackend.model.request.CategoryRequest;
 import com.tomasmartinez.cursobackend.model.response.CategoryResponse;
 import com.tomasmartinez.cursobackend.service.CategoryService;
@@ -17,6 +18,7 @@ public class CategoryController {
 
     private final CategoryService service;
 
+    @AdminMethod
     @PostMapping("")
     @PreAuthorize("hasAuthority('category:write')")
     public CategoryResponse createCategory(@RequestBody @Validated CategoryRequest request) throws Exception {
@@ -24,17 +26,14 @@ public class CategoryController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('category:read')")
     public List<CategoryResponse> findAllCategories() { return service.findAllCategories(); }
 
     @GetMapping("")
-    @PreAuthorize("hasAuthority('category:read')")
     public CategoryResponse findByCode(@RequestParam String code){
         return service.findCategoryByCode(code);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('category:read')")
     public CategoryResponse findById(@PathVariable String id){
         return service.findCategoryById(id);
     }
