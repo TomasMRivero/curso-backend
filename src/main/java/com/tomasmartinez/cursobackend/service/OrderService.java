@@ -8,4 +8,5 @@ import java.util.List;
 public interface OrderService {
     OrderResponse generateOrder(String token) throws Exception;
     List<OrderResponse> showOrders(String email);
+    public String decodeEmail(String token) throws Exception;
 }

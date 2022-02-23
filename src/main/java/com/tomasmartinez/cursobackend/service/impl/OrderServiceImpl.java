@@ -44,6 +44,7 @@ public class OrderServiceImpl implements OrderService {
                 .orderNumber(getNext())
                 .createdDate(LocalDateTime.now())
                 .build());
+        cartRepository.delete(cart);
         return OrderBuilder.documentToResponse(doc);
     }
 
@@ -54,13 +55,14 @@ public class OrderServiceImpl implements OrderService {
 
     private long getNext(){
         Counter last = counterRepository.findTopByOrderByIdDesc();
-        if (Objects.isNull(last)) counterRepository.save(new Counter(0));
+        if (Objects.isNull(last)) last = counterRepository.save(new Counter(0));
         long lastNum = last.getSeq();
         Counter next = new Counter(lastNum + 1);
         counterRepository.save(next);
         return next.getSeq();
     }
 
+    @Override
     public String decodeEmail(String token) throws Exception{
         token = token.replace("Bearer ", "");
         return Jwts.parser()

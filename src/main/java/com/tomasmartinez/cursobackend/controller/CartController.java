@@ -22,7 +22,7 @@ public class CartController {
 
     private final CartService cartService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public CartResponse showCart(@RequestHeader("Authorization") String token) throws Exception {
         return cartService.showCart(token);
     }
