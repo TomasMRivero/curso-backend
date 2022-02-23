@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final ApplicationProperties properties;
 
     @Override
-    public OrderResponse generateOrder(String token) throws Exception {
+    public OrderResponse generateOrder(String token){
         Cart cart = cartRepository.findByEmail(decodeEmail(token));
         List<OrderItem> productList = new ArrayList<>();
         cart.getItems().forEach(item -> productList.add(
@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String decodeEmail(String token) throws Exception{
+    public String decodeEmail(String token){
         token = token.replace("Bearer ", "");
         return Jwts.parser()
                 .setSigningKey(properties.getSecret().getBytes())

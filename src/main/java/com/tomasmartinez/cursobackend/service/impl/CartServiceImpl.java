@@ -3,6 +3,8 @@ package com.tomasmartinez.cursobackend.service.impl;
 import com.tomasmartinez.cursobackend.builder.CartBuilder;
 import com.tomasmartinez.cursobackend.builder.CartItemBuilder;
 import com.tomasmartinez.cursobackend.config.ApplicationProperties;
+import com.tomasmartinez.cursobackend.handle.NotFoundException;
+import com.tomasmartinez.cursobackend.handle.UpdateContentException;
 import com.tomasmartinez.cursobackend.model.document.Cart;
 import com.tomasmartinez.cursobackend.model.document.CartItem;
 import com.tomasmartinez.cursobackend.model.document.Product;
@@ -43,8 +45,8 @@ public class CartServiceImpl implements CartService {
             CartItem item = validateUpdateRequest(request.getAmount(), request.getCode(), cart);
             item.setAmount(item.getAmount() + request.getAmount());
             item.setModifiedDate(LocalDateTime.now());
-            //TODO: EXCEPCION PARA SIN STOCK Y VERIF
-        }catch(Exception e){
+            validateAmount(productRepository.findByCode(request.getCode()), request.getAmount());
+        }catch(NotFoundException e){
             cart.getItems().add(CartItemBuilder.requestToDocument(request));
         }
         cartRepository.save(cart);
@@ -87,25 +89,25 @@ public class CartServiceImpl implements CartService {
     private void validateCartItemRequest(CartItemRequest request) throws Exception{
         Product prod = productRepository.findByCode(request.getCode());
         if(Objects.isNull(prod))
-            throw new Exception("El producto no existe");
+            throw new NotFoundException("El producto no existe");
         validateAmount(prod, request.getAmount());
     }
 
     private void validateAmount(Product prod, int amount) throws Exception{
         if(amount > prod.getStock())
-            throw new Exception("Sin stock suficiente");
+            throw new UpdateContentException("Sin stock suficiente");
     }
 
     private CartItem validateUpdateRequest(int amount, String code, Cart cart) throws Exception{
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getCode().equals(code))
-                .findFirst().orElseThrow(() -> new Exception("El item no está en el carrito"));
+                .findFirst().orElseThrow(() -> new NotFoundException("El item no está en el carrito"));
         Product prod = productRepository.findByCode(code);
         validateAmount(prod, amount);
         return item;
     }
 
-    private String decodeEmail(String token) throws Exception{
+    private String decodeEmail(String token){
         token = token.replace("Bearer ", "");
         return Jwts.parser()
                 .setSigningKey(properties.getSecret().getBytes())
@@ -116,11 +118,11 @@ public class CartServiceImpl implements CartService {
 
     private Cart getCart(String token) throws Exception {
         Cart cart = cartRepository.findByEmail(decodeEmail(token));
-        if (Objects.isNull(cart)) throw new Exception("No existe el carrito");
+        if (Objects.isNull(cart)) throw new NotFoundException("No existe el carrito");
         return cart;
     }
 
-    private Cart buildCart(String token) throws Exception {
+    private Cart buildCart(String token){
         return Cart.builder()
                 .email(decodeEmail(token))
                 .createdDate(LocalDateTime.now())

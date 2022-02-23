@@ -1,6 +1,7 @@
 package com.tomasmartinez.cursobackend.service.impl;
 
 import com.tomasmartinez.cursobackend.builder.CategoryBuilder;
+import com.tomasmartinez.cursobackend.handle.CreateContentException;
 import com.tomasmartinez.cursobackend.model.document.Category;
 import com.tomasmartinez.cursobackend.model.request.CategoryRequest;
 import com.tomasmartinez.cursobackend.model.response.CategoryResponse;
@@ -20,9 +21,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponse createCategory(CategoryRequest request) throws Exception {
-        validateCreateRequest(request);
-        Category doc = repository.save(CategoryBuilder.requestToDocument(request));
-        return CategoryBuilder.documentToResponse(doc);
+        try {
+            validateCreateRequest(request);
+            Category doc = repository.save(CategoryBuilder.requestToDocument(request));
+            return CategoryBuilder.documentToResponse(doc);
+        }catch(Exception e){
+            throw new CreateContentException(e.getMessage());
+        }
     }
 
     @Override

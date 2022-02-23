@@ -1,6 +1,8 @@
 package com.tomasmartinez.cursobackend.service.impl;
 
 import com.tomasmartinez.cursobackend.builder.ProductBuilder;
+import com.tomasmartinez.cursobackend.handle.CreateContentException;
+import com.tomasmartinez.cursobackend.handle.NotFoundException;
 import com.tomasmartinez.cursobackend.model.document.Category;
 import com.tomasmartinez.cursobackend.model.document.Product;
 import com.tomasmartinez.cursobackend.model.request.ProductRequest;
@@ -72,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 
     private Category validateCreateRequest(ProductRequest request) throws Exception{
         if(!Objects.isNull(productRepository.findByCode(request.getCode())))
-            throw new Exception("El producto ya existe");
+            throw new CreateContentException("El producto ya existe");
         return validateCategory(request.getCategoryCode());
     }
 
@@ -84,13 +86,13 @@ public class ProductServiceImpl implements ProductService {
     private Product validateProductByCode(String code) throws Exception {
         Product prod = productRepository.findByCode(code);
         if(Objects.isNull(prod))
-            throw new Exception("El producto no existe");
+            throw new NotFoundException("El producto no existe");
         return prod;
     }
 
     private Category validateCategory(String code) throws Exception{
         Category cat = categoryRepository.findByCode(code);
-        if(Objects.isNull(cat)) throw new Exception("La categoria no existe");
+        if(Objects.isNull(cat)) throw new NotFoundException("La categoria no existe");
         return cat;
     }
 }

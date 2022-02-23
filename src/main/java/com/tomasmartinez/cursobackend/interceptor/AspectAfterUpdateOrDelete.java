@@ -1,6 +1,6 @@
 package com.tomasmartinez.cursobackend.interceptor;
 
-import com.tomasmartinez.cursobackend.handle.NullUpdateContentException;
+import com.tomasmartinez.cursobackend.handle.UpdateContentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.annotation.After;
@@ -21,8 +21,8 @@ public class AspectAfterUpdateOrDelete {
     void afterAdviceMethod(){
         logger.info("Se ejecuto el after advice de un metodo Update o Delete del Service");
     }
-    @AfterThrowing(value = "updateOrDeleteServiceMethods()", throwing = "nullUpdateContentException")
-    void afterThrowingAdviceMethod(NullUpdateContentException nullUpdateContentException){
-        logger.error("Error: {}", nullUpdateContentException.getMessage());
+    @AfterThrowing(value = "updateOrDeleteServiceMethods()", throwing = "updateContentException")
+    void afterThrowingAdviceMethod(UpdateContentException updateContentException){
+        logger.error("Error: {}", updateContentException.getMessage());
     }
 }
