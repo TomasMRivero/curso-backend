@@ -33,4 +33,10 @@ public class OrderBuilder {
                 .modifiedDate(doc.getModifiedDate())
                 .build();
     }
+
+    public static List<OrderResponse> listDocumentToResponse(List<Order> list){
+        List<OrderResponse> responseList = new ArrayList<>();
+        list.forEach(order -> responseList.add(documentToResponse(order)));
+        return responseList;
+    }
 }

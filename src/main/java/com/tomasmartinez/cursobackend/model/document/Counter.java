@@ -14,4 +14,8 @@ public class Counter {
     @Id
     private String id;
     private long seq;
+
+    public Counter(long seq) {
+        this.seq = seq;
+    }
 }
