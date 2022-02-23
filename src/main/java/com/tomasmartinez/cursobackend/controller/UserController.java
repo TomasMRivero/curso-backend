@@ -1,5 +1,6 @@
 package com.tomasmartinez.cursobackend.controller;
 
+import com.tomasmartinez.cursobackend.handle.CreateContentException;
 import com.tomasmartinez.cursobackend.model.request.LoginRequest;
 import com.tomasmartinez.cursobackend.model.request.UserRequest;
 import com.tomasmartinez.cursobackend.model.response.LoginResponse;
@@ -19,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("")
-    public UserResponse createUser(@RequestBody UserRequest request, @RequestParam @Validated Optional<Boolean> isAdmin){
+    public UserResponse createUser(@RequestBody UserRequest request, @RequestParam @Validated Optional<Boolean> isAdmin) throws CreateContentException {
         if(isAdmin.isPresent() && isAdmin.get()) request.setAdmin(true);
         return userService.createUser(request);
     }
